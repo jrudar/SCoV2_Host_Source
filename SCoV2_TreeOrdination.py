@@ -466,7 +466,7 @@ if __name__ == "__main__":
                     "Odocoileus virginianus": 38,
                 }
             ),
-            n_iter_unsup=6,  # 20,
+            n_iter_unsup=20,
             exclude_col=[False, -1],
             n_components=6,
         ).fit(X_pa[y_no_ont].astype(np.int8), y["Host"].values[y_no_ont])
@@ -521,7 +521,7 @@ if __name__ == "__main__":
                     "Odocoileus virginianus": 38,
                 }
             ),  # Human was 300
-            n_iter_unsup=6,  # 20,
+            n_iter_unsup=20,
             exclude_col=[False, -1],
             transformer = CLRClosureTransformer(),
             n_components=6,
@@ -543,7 +543,7 @@ if __name__ == "__main__":
     if prep_phylo:
         """
         Much of the following code was adapted from:
-        Pickering, B., Lung, O., Maguire, F. et al. Divergent SARS-CoV-2 variant emerges in white-tailed deer with deer-to-human transmission. Nat Microbiol 7, 2011–2024 (2022). https://doi.org/10.1038/s41564-022-01268-9
+        Pickering, B., Lung, O., Maguire, F. et al. Divergent SARS-CoV-2 variant emerges in white-tailed deer with deer-to-human transmission. Nat Microbiol 7, 2011Â–2024 (2022). https://doi.org/10.1038/s41564-022-01268-9
 
         This can be found here: https://github.com/fmaguire/on_deer_spillback_analyses/tree/master/analyses/maximum_likelihood_phylogenies
         """
