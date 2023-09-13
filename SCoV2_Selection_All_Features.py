@@ -431,5 +431,3 @@ if __name__ == "__main__":
     for dataset_name, dataset in datasets.items():
         pd.DataFrame(dataset[2][0], index = dataset[2][1]["Strain"], columns = dataset[2][2]).to_csv("Figures Final/Positive Selection/%s_full_aa_snv.csv" %dataset_name)
         dataset[2][1].to_csv("Final_Results/Selection/%s_full_meta.csv" %dataset_name)
-
-    fdfd = 5
