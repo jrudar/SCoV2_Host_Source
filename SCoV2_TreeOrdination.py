@@ -428,7 +428,7 @@ if __name__ == "__main__":
             [X_mutation, y_tmp, cols_mutation, "SNVs_AAMut"],
         ]
 
-    snv_sv_aa_analysis = True
+    snv_sv_aa_analysis = False
     if snv_sv_aa_analysis:
         y = datasets["20C"][2][1]
 
@@ -520,7 +520,7 @@ if __name__ == "__main__":
                     "Neovison vison": 125,
                     "Odocoileus virginianus": 38,
                 }
-            ),  # Human was 300
+            ), 
             n_iter_unsup=20,
             exclude_col=[False, -1],
             transformer = CLRClosureTransformer(),
@@ -541,12 +541,9 @@ if __name__ == "__main__":
 
     prep_phylo = True
     if prep_phylo:
-        """
-        Much of the following code was adapted from:
-        Pickering, B., Lung, O., Maguire, F. et al. Divergent SARS-CoV-2 variant emerges in white-tailed deer with deer-to-human transmission. Nat Microbiol 7, 2011Â–2024 (2022). https://doi.org/10.1038/s41564-022-01268-9
-
-        This can be found here: https://github.com/fmaguire/on_deer_spillback_analyses/tree/master/analyses/maximum_likelihood_phylogenies
-        """
+        #Much of the following code was adapted from:
+        #Pickering, B., Lung, O., Maguire, F. et al. Divergent SARS-CoV-2 variant emerges in white-tailed deer with deer-to-human transmission. Nat Microbiol 7, 2011–2024 (2022). https://doi.org/10.1038/s41564-022-01268-9
+        #This can be found here: https://github.com/fmaguire/on_deer_spillback_analyses/tree/master/analyses/maximum_likelihood_phylogenies
 
         df_nn = pd.read_csv("Final_Results/TreeOrdination/20C_SNP_SV_AA.csv")
         df_nn.index = df_nn.Strain
@@ -879,3 +876,4 @@ if __name__ == "__main__":
             ["Strain", "Date"]
         ]
         date_file.to_csv("Final_Results/TreeOrdination/subset_dates.csv")
+
