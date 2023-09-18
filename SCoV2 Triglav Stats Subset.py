@@ -62,7 +62,7 @@ def getNewick(node, newick, parentdist, leaf_names):
 
 def print_nwk(dataset_name, tree_nwk):
     with open(
-        "Figures Final/Positive Selection/%s/X_triglav.nwk" % dataset_name, "w"
+        "Final_Results/Triglav/%s/X_triglav.nwk" % dataset_name, "w"
     ) as file:
         print(tree_nwk, file=file)
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
         # Load the stability data
         X_stability = pd.read_csv(
-            "Selection/%s/Stability_Results.csv"
+            "Final_Results/Triglav/%s/Stability_Results.csv"
             %dataset_name
         ).astype(int)
 
@@ -89,7 +89,7 @@ if __name__ == "__main__":
             "Final_Results/Selection/%s_full_aa_snv.csv" % dataset_name
         )
         y_meta = pd.read_csv(
-            "Figures Final/Positive Selection/%s_full_meta.csv" % dataset_name
+            "Final_Results/Selection/%s_full_meta.csv" % dataset_name
         ).astype(str)[["Host", "Strain", "Province", "Clade", "Country"]]
 
         # Remove Rare Clade-Province combinations if dataset is All Clades
@@ -387,7 +387,7 @@ if __name__ == "__main__":
         )
 
         with open(
-            "Final_Results/Triglav/%s_clf_perf_results.txt" % dataset_name,
+            "Final_Results/Triglav/%s/clf_perf_results.txt" % dataset_name,
             "w",
         ) as file:
             print(
@@ -813,5 +813,3 @@ if __name__ == "__main__":
         y_meta.to_csv(
             "Final_Results/Triglav/y_meta_triglav_%s.csv" % dataset_name
         )
-
-        fdfd = 5
