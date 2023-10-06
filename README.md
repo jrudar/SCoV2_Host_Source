@@ -28,5 +28,4 @@ Deer_GISAID - This directory contains the raw data used for this analysis (seque
 Final_Results - This directory is used to store the output files. Currently, it only contains data which was
 used to generate the results reported in the manuscript.
 
-Selection_Results - This directory contains the data and trees used to generate Figures 5 and 7.
-S
+Selection_Results - This directory contains the data and trees used to generate Figures 6 and 7.
