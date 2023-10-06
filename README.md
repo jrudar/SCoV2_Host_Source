@@ -21,7 +21,7 @@ rejected features and generate data to produce Figures 1 to 5.
 
 SCoV2_TreeOrdination.py - This file runs the TreeOrdination/NN Search and will generate data to produce Figure 8.
 
-R_Clustermap.txt - This file contains and example of the R code used to generate Figures 1, 2, 3, and 8.
+R_Clustermap.txt - This file contains and example of the R code used to generate Figures 1, 2, 3, 6, and 8.
 
 Tanglegram_by_clade/host.Rmd - This file contains the code used to generate Figure 7a and 7b. The trees used
 are found in the "Selection Analysis" directory.
