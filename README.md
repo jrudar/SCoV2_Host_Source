@@ -1,5 +1,4 @@
-# SCoV2_Host_Source
-Sequence Signatures Within the Genome of SARS-CoV-2 Can be Used to Predict Host Source
+# Sequence Signatures Within the Genome of SARS-CoV-2 Can be Used to Predict Host Source
 
 This repository contains datasets and code which were used to generate the results reported in the main manuscript.
 To use the code, you may need to update the paths located in each file. If there are issues or you need help using
