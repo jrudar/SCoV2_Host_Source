@@ -1,0 +1,111 @@
+# ggtree v3.2.0
+library(ggtree)
+# ggnewscale for multiple independent scales in the same plot
+library(ggnewscale)
+# tidyverse 1.3.1
+# ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
+# ✔ tibble  3.1.6     ✔ dplyr   1.0.7
+# ✔ tidyr   1.1.4     ✔ stringr 1.4.0
+# ✔ readr   2.1.1     ✔ forcats 0.5.1
+library(tidyverse)
+
+tree = read.tree('full_aa_snv_remain.nwk')
+
+library(readr)
+dfaa <- read_csv("full_aa_snv_remain.csv")
+rownames(dfaa) <- dfaa$Strain
+
+dfaa_heatmap = as.data.frame(dfaa[,colnames(dfaa)[2:ncol(dfaa)]])
+
+rownames(dfaa_heatmap) = dfaa$Strain
+
+metadata <- read_csv("y_meta_triglav.csv")
+rownames(metadata) <- metadata$Strain
+
+metadata$Host <- ifelse(metadata$Host == "Human", "Homo sapiens", metadata$Host)
+
+p = ggtree(tree, size = 0.125) %<+% metadata
+
+offset = 0.000015
+offset_step = 0.00022
+
+#
+
+df_clu <- data.frame(Host = metadata["Clade"])
+rownames(df_clu) <- metadata$Strain
+
+p = gheatmap(p, df_clu, font.size = 3.1,
+             colnames_offset_y=2, hjust=0, colnames_angle=45, colnames_position="top",
+             width=0.15, 
+             offset=offset,
+             colnames=T,
+             color=NULL)
+
+p = p + scale_fill_discrete(guide=guide_legend(title='Clade'))
+
+p = p + new_scale_fill()
+
+offset = offset + offset_step
+#
+
+df_h <- data.frame(Host = metadata["Host"])
+rownames(df_h) <- metadata$Strain
+
+p = gheatmap(p, df_h, font.size = 3.1,
+             colnames_offset_y=2, hjust=0, colnames_angle=45, colnames_position="top",
+             width=0.15, 
+             offset=offset,
+             colnames=T,
+             color=NULL)
+
+p = p + scale_fill_manual(values = c(
+    '#e6ab02', #yellow
+    '#4daf4a', # green
+    '#d95f02' # orange
+), na.translate=F, guide=guide_legend(title='Host'))
+
+p = p + new_scale_fill()
+
+offset = offset + offset_step
+#
+
+p = gheatmap(p, dfaa_heatmap, font.size = 3.1, 
+             colnames_offset_y=2, hjust=0, colnames_angle=45, colnames_position="top",
+             width=18, 
+             offset=offset + offset_step + 0.0001, 
+             colnames=T,
+             color=NULL)
+
+p = p + scale_y_continuous(expand = c(0.075,0))
+p = p + scale_fill_manual(values=c(
+'white',
+'gray',
+'#1b9e77',
+'#5c9f42',
+'#3b9a57',
+'#d95f02',
+'#7570b3',
+'#e7298a',
+'pink',
+'firebrick',
+'#66a61e',
+'#e6ab02',
+'#a6761d',
+'#666666',
+'#777888',
+'#123bbc',
+'#1a2b3c'
+), na.translate=F, guide=guide_legend(title='Gene', nrow=2, keywidth = 1, keyheight = 1))
+
+#Below are for 21J
+#p = p + geom_hilight(node=626, fill="firebrick", alpha=.4) 
+
+p2 = p + theme(plot.margin=margin(-3, 0, 0, -2.5, "cm"),
+              legend.margin=margin(-2,0,0,0,'cm'),
+              plot.background=element_rect(fill = "transparent", color='transparent'),
+              panel.background=element_rect(fill='transparent', color='transparent'),
+              legend.position = "bottom")
+p2 = p2 + vexpand(0.1, 1) + hexpand(0.001, 1)
+ggsave(plot = p2, filename = 'Selection_not_Triglave.svg', height = 20, width = 27)
+
+#ggsave(plot = p2, filename = '20C_Triglav1.svg', height = 17, width = 20)
