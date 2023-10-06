@@ -1,0 +1,73 @@
+library(ape)
+library(phytools)
+library(dendextend)
+library(viridis)
+library(dplyr)
+library(phylogram)
+
+setwd("C:/Users/Oksana/Documents/SARS_CoV_2/tanglegram")
+meta <- read.csv("y_meta_triglav.csv")
+phylo <- read.tree('All.mafft.iqtree-time-tree.timetree.nwk')
+phylo <- multi2di(phylo)
+phylo <- force.ultrametric(phylo)
+phylo <- ladderize(phylo)
+triglav <- read.tree('X_triglav.nwk')
+triglav <- force.ultrametric(triglav)
+triglav <- ladderize(triglav)
+
+d1 <- as.dendrogram(phylo) 
+d2 <- as.dendrogram(triglav)
+
+
+labels <- d1 %>% set("labels_to_char") %>% labels 
+labels <- as.data.frame(labels)
+labels2 <- merge(labels, meta, by.x="labels", by.y="Strain", sort=F)
+
+table(labels2$Clade)
+
+table(labels2$Host)
+
+for(i in 1:nrow(labels2)){
+    if(labels2$Clade[[i]] == "20I"){labels2$Clade_col[[i]] = "blue"}
+	else if(labels2$Clade[[i]] == "20A"){labels2$Clade_col[[i]] = "red"}
+	else if(labels2$Clade[[i]] == "20B"){labels2$Clade_col[[i]] = "purple"}
+	else if(labels2$Clade[[i]] == "20C"){labels2$Clade_col[[i]] = "orange"}
+	else if(labels2$Clade[[i]] == "20G"){labels2$Clade_col[[i]] = "green"}
+	else if(labels2$Clade[[i]] == "20J"){labels2$Clade_col[[i]] = "skyblue"}
+	else if(labels2$Clade[[i]] == "21A"){labels2$Clade_col[[i]] = "yellow"}
+	else if(labels2$Clade[[i]] == "21C"){labels2$Clade_col[[i]] = "lavender"}
+	else if(labels2$Clade[[i]] == "21J"){labels2$Clade_col[[i]] = "gold"}
+
+}
+
+#Repeat for the second dendrogram
+
+labels_2 <- d2 %>% set("labels_to_char") %>% labels 
+labels_2 <- as.data.frame(labels_2)
+labels2_2 <- merge(labels_2, meta, by.x="labels_2", by.y="Strain", sort=F)
+
+for(i in 1:nrow(labels2_2)){
+    if(labels2_2$Clade[[i]] == "20I"){labels2_2$Clade_col_2[[i]] = "blue"}
+    else if(labels2_2$Clade[[i]] == "20A"){labels2_2$Clade_col_2[[i]] = "red"}
+    else if(labels2_2$Clade[[i]] == "20B"){labels2_2$Clade_col_2[[i]] = "purple"}
+    else if(labels2_2$Clade[[i]] == "20C"){labels2_2$Clade_col_2[[i]] = "orange"}
+    else if(labels2_2$Clade[[i]] == "20G"){labels2_2$Clade_col_2[[i]] = "green"}
+    else if(labels2_2$Clade[[i]] == "20J"){labels2_2$Clade_col_2[[i]] = "skyblue"}
+    else if(labels2_2$Clade[[i]] == "21A"){labels2_2$Clade_col_2[[i]] = "yellow"}
+    else if(labels2_2$Clade[[i]] == "21C"){labels2_2$Clade_col_2[[i]] = "lavender"}
+    else if(labels2_2$Clade[[i]] == "21J"){labels2_2$Clade_col_2[[i]] = "gold"}
+    
+}
+
+
+
+
+cols <- as.character(labels2$Clade_col)
+cols_2 <- as.character(labels2_2$Clade_col_2)
+dl <- dendlist(color_branches(d1, col=cols), color_branches(d2, col=cols_2))
+tanglegram(dl, color_lines = cols, faster=T, main_left = "Phylogeny", main_right = "Hierarchical clustering", margin_inner = 0.5)
+
+legend("bottomleft", legend=c("20A", "20B", "20C", "20G", "20I", "20J", "21A", "21C", "21J"),
+ col=c("red", "purple", "orange", "green", "blue", "skyblue", "yellow", "lavender", "gold"), pch=15, cex=1, pt.cex=1.8, title = "Clade", bty="n")
+
+

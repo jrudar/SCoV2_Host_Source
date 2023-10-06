@@ -1,0 +1,63 @@
+library(ape)
+library(phytools)
+library(dendextend)
+library(viridis)
+library(dplyr)
+library(phylogram)
+
+setwd("C:/Users/Oksana/Documents/SARS_CoV_2/tanglegram")
+meta <- read.csv("y_meta_triglav.csv")
+phylo <- read.tree('All.mafft.iqtree-time-tree.timetree.nwk')
+phylo <- multi2di(phylo)
+phylo <- force.ultrametric(phylo)
+phylo <- ladderize(phylo)
+triglav <- read.tree('X_triglav.nwk')
+triglav <- force.ultrametric(triglav)
+triglav <- ladderize(triglav)
+
+d1 <- as.dendrogram(phylo) 
+d2 <- as.dendrogram(triglav)
+
+
+
+
+
+labels <- d1 %>% set("labels_to_char") %>% labels 
+labels <- as.data.frame(labels)
+labels2 <- merge(labels, meta, by.x="labels", by.y="Strain", sort=F)
+
+table(labels2$Clade)
+
+table(labels2$Host)
+
+
+for(i in 1:nrow(labels2)){
+    if(labels2$Host[[i]] == "Human"){labels2$Host_col[[i]] = "gold"}
+	else if(labels2$Host[[i]] == "Neovison vison"){labels2$Host_col[[i]] = "green4"}
+	else if(labels2$Host[[i]] == "Odocoileus virginianus"){labels2$Host_col[[i]] = "darkorange"}
+}
+
+#Repeat for the second dendrogram
+
+labels_2 <- d2 %>% set("labels_to_char") %>% labels 
+labels_2 <- as.data.frame(labels_2)
+labels2_2 <- merge(labels_2, meta, by.x="labels_2", by.y="Strain", sort=F)
+
+for(i in 1:nrow(labels2_2)){
+    if(labels2_2$Host[[i]] == "Human"){labels2_2$Host_col_2[[i]] = "gold"}
+	else if(labels2_2$Host[[i]] == "Neovison vison"){labels2_2$Host_col_2[[i]] = "green4"}
+	else if(labels2_2$Host[[i]] == "Odocoileus virginianus"){labels2_2$Host_col_2[[i]] = "darkorange"}
+}
+
+
+
+
+cols <- as.character(labels2$Host_col)
+cols_2 <- as.character(labels2_2$Host_col_2)
+dl <- dendlist(color_branches(d1, col=cols), color_branches(d2, col=cols_2))
+tanglegram(dl, color_lines = cols, faster=T, main_left = "Phylogeny", main_right = "Hierarchical clustering", margin_inner = 0.5)
+
+legend("bottomleft", legend=c("Human", "Neovison vison", "Odocoileus virginianus"),
+ col=c("gold", "green4", "darkorange"), pch=15, cex=1, pt.cex=1.8, title = "Host", bty="n")
+
+
